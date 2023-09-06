@@ -190,7 +190,7 @@ Many thanks Jack!
 * Initial release.
 
 ### v1.1.0
-* Bug - read() would return the state of the variable as soon as the variable became `true` instead of after debouncing. - Fixed.
+* Bug - `read()` would return the state of the variable as soon as the variable became `true` instead of after debouncing. - Fixed.
 * Revised the names of the `.h` and `.cpp` files in `/src` to align with Arduino library conventions.
 * **Breaking change:** In all examples, revised the `#include <BoolButton>` line to `#include <BooleanButton>`  to match the changes above. Sketches using the original name (`BoolButton`) will need to be likewise changed to `BooleanButton`. My apologies.
 * add `isStable()` library function.
