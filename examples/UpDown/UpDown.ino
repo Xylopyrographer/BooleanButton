@@ -8,11 +8,11 @@
 // or decrement by one, long presses repeat at a specified rate.
 // Every time the number changes, it is written to the serial monitor.
 
-#include <BoolButton.h>      // https://github.com/Xylopyrographer/BooleanButton
+#include <BooleanButton.h>      // https://github.com/Xylopyrographer/BooleanButton
 
 // pin assignments
 //  - change the pin numbers to match your wiring
-#define UP_PIN  14              // connect a momentary push button switch from this pin to ground
+#define UP_PIN  14              // connect a momentary push button switch from this GPIO pin to ground
 #define DN_PIN  27              // ditto
 
 bool boolUP = 0;                // the variables to monitor
