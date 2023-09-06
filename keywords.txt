@@ -7,6 +7,6 @@ wasPressed	KEYWORD2
 wasReleased	KEYWORD2
 pressedFor	KEYWORD2
 releasedFor	KEYWORD2
-isStable KEYWORD2
+isStable	KEYWORD2
 lastChange	KEYWORD2
 
