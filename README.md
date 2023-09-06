@@ -41,17 +41,17 @@ The constructor defines a virtual boolean button object.
 None.
 ##### Examples
 ```arduino
-// variable "myVar" is to be monitored, 25ms debounce, logic not inverted
-bool myVar;
-BoolBtn theVariable( &myVar );
+// variable "theVariable" is to be monitored, 25ms debounce, logic not inverted
+bool theVariable;
+BoolBtn myVirBtn( &theVariable );
 
 // same as above but needs a longer debounce time (50ms)
-bool myVar;
-BoolBtn theVariable( &myVar, 50 );
-
-// monitor "myVar", with a 25ms debounce time and invert the logic
 bool theVariable;
-BoolBtn theVariable( & myVar, 25, true );
+BoolBtn myVirBtn( &theVariable, 50 );
+
+// monitor "theVariable", with a 25ms debounce time but invert the variable state
+bool theVariable;
+BoolBtn myVirBtn( &theVariable, 25, true );
 
 ```
 
@@ -61,44 +61,44 @@ BoolBtn theVariable( & myVar, 25, true );
 ##### Description
 Initializes the BoolBtn object.
 ##### Syntax
-`theVariable.begin();`
+`myVirBtn.begin();`
 ##### Parameters
 None.
 ##### Returns
 None.
 ##### Example
 ```arduino
-theVariable.begin();
+myVirBtn.begin();
 ```
 ### read()
 ##### Description
-Reads and returns the state of the variable being monitored and returns a *boolean* value (*true* or *false*) accordingly.
+Reads and returns the debounced state of the variable being monitored and returns a *boolean* value (*true* or *false*) accordingly.
 
 The read() function needs to execute very frequently in order for the sketch to be responsive. A good place for `read()` is at the top of `loop()`. Often, the return value from `read()` will not be needed if the other functions below are used.
 ##### Syntax
-`theVariable.read();`
+`myVirBtn.read();`
 ##### Parameters
 None.
 ##### Returns
 *true* if the variable is true, else *false*.  *(type = bool)*
 ##### Example
 ```arduino
-theVariable.read();
+myVirBtn.read();
 ```
 
 ### isPressed()<br>isReleased()
 ##### Description
-These functions check the variable state as found from the last call to `read()` and returns false or true accordingly. These functions *do not* cause the variable to be read.
+These functions check the variable state as found from the last call to `read()` and return true or false accordingly. These functions *do not* cause the variable to be read.
 ##### Syntax
-`theVariable.isPressed();`  
-`theVariable.isReleased();`
+`myVirBtn.isPressed();`  
+`myVirBtn.isReleased();`
 ##### Parameters
 None.
 ##### Returns
 *true* or *false*, depending on whether the variable is true (false) or not. *(type = bool)*
 ##### Example
 ```arduino
-if ( theVariable.isPressed() ) {
+if ( myVirBtn.isPressed() ) {
 	//do something
 }
 else {
@@ -108,18 +108,41 @@ else {
 
 ### wasPressed()<br>wasReleased()
 ##### Description
-These functions check the variable state to see if it changed between the last two calls to `read()` and returns false or true accordingly. These functions *do not* cause the variable to be read. Note that these functions may be more useful than `isPressed()` and `isReleased()` since they actually detect a *change* in the state of the variable, which is usually what we want in order to cause some action.
+These functions check the variable state to see if it changed between the last two calls to `read()` and returns true or false accordingly. These functions *do not* cause the variable to be read. Note that these functions may be more useful than `isPressed()` and `isReleased()` since they actually detect a *change* in the state of the variable, which is usually what is wanted in order to cause some action.
 ##### Syntax
-`theVariable.wasPressed();`  
-`theVariable.wasReleased();`
+`myVirBtn.wasPressed();`  
+`myVirBtn.wasReleased();`
 ##### Parameters
 None.
 ##### Returns
-*true* or *false*, depending on whether the button was pressed (released) or not. *(type = boolean)*.
+*true* or *false*, depending on whether the variable changed state or not. *(type = boolean)*.
 ##### Example
 ```arduino
-if ( theVariable.wasPressed() ) {
+if ( myVirBtn.wasPressed() ) {
 	//do something
+}
+```
+### isStable()
+##### Description
+Checks that the variable has not changed state for at least the variable debounce time.
+This function *does not* cause the variable to be read. Using this function preceded by multiple calls to `read()` can be used during `setup()` to force or ensure the variable state is debounced before proceeding.
+##### Syntax
+`myVirBtn.isStable();`
+##### Parameters
+None.
+##### Returns
+*true* if the variable has not changed state for at least the debounce time (`dbTime`) as specified when calling the constructor, *false* otherwise. *(type = boolean)*.
+##### Example
+```arduino
+#define BUTTON_PIN 14
+pinMode( BUTTON_PIN, INPUT_PULLUP );
+bool pinState = !digitalRead( BUTTON_PIN );
+BoolBtn myVirBtn( &pinState );
+myVirBtn.begin();
+
+while ( myVirBtn.isStable() != true ) {
+    pinState = !digitalRead( BUTTON_PIN );  // refresh the variable being monitored
+    myVirBtn.read();
 }
 ```
 
@@ -160,4 +183,16 @@ BooleanButton is a virtual clone of the JC\_Button library written by Jack Chris
 Since BooleanButton creates a virtual physical button from a boolean variable, the syntax of JC\_Button was retained — hopefully to anchor the concept.
 
 Many thanks Jack!
+
+## Release Notes
+
+###v1.0
+* Initial release.
+
+###v1.1.0
+* Bug - read() would return the state of the variable as soon as the variable became `true` instead of after debouncing. - Fixed.
+* Revised the names of the `.h` and `.cpp` files in `/src` to align with Arduino library conventions.
+* **Breaking change:** In all examples, revised the `#include <BoolButton>` line to `#include <BooleanButton>`  to match the changes above. Sketches using the original name (`BoolButton`) will need to be likewise changed to `BooleanButton`. My apologies.
+* add `isStable()` library function.
+* Revised `README.md` document to clarify the Constructor examples and values returned from the library functions.
 

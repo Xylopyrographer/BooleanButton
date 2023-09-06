@@ -10,7 +10,7 @@
 // a long press causes the LED to blink rapidly. Once in rapid blink
 // mode, another long press goes back to on/off mode.
 
-#include <BoolButton.h>     // https://github.com/Xylopyrographer/BooleanButton
+#include <BooleanButton.h>      // https://github.com/Xylopyrographer/BooleanButton
 
 // pin assignments
 //  - change the pin numbers to match your wiring

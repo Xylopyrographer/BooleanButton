@@ -6,7 +6,7 @@
 // Example sketch to turn an LED on and off with a momentary contact
 // push button switch by monitoring the state of a boolean variable.
 
-#include <BoolButton.h>     // https://github.com/Xylopyrographer/BooleanButton
+#include <BooleanButton.h>      // https://github.com/Xylopyrographer/BooleanButton
 
 // pin assignments
 //  - change the pin numbers to match your wiring
